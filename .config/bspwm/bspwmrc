@@ -1,0 +1,49 @@
+#! /bin/sh
+
+#################
+##configuration##
+#################
+
+# Establish workspaces
+bspc monitor -d Term Firefox Dev Games Music Free
+
+bspc config border_width        2
+bspc config window_gap          20
+
+bspc config split_ratio          	0.5
+bspc config borderless_monocle   	true
+bspc config gapless_monocle      	true
+bspc config focus_follows_pointer 	false
+
+bspc config focused_border_color "#0abdc6"
+bspc config normal_border_color "#000b1e"
+
+################
+##window rules##
+################
+
+#Assign certain programs to certain desktops
+bspc rule --add Firefox		desktop="^2"
+bspc rule --add Steam		desktop="^4"
+bspc rule --add desktop="^4"	state=floating
+
+#Set states for certain applications
+bspc rule -a Steam state=floating follow=on
+bspc rule -a zathura state=tabbed follow=on
+
+#############
+##AUTOSTART##
+#############
+
+# Start keyboard shortcuts daemon
+pkill sxhkd
+sxhkd &
+#Start compton compositor
+pkill sxhkd
+compton &
+#start status bar
+pkill lemonbar
+/bin/bash ~/.local/bin/bar/bar.sh &
+#set background image
+feh --bg-scale ~/.bg/bg &
+
